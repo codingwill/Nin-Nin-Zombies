@@ -4,13 +4,15 @@
 class Kunai
 {
 public:
-	Kunai();
+	Kunai(const sf::Vector2f& playerPos);
 	~Kunai();
+	void draw(sf::RenderTarget& rt) const;
+	void animasi(sf::Vector2f& posi);
 
 private:	
-	double dt;
-	sf::Vector2f vel;
-	sf::Vector2f accel;
+	double dt = 0.1f;
+	sf::Vector2f vel = { 0, 0 }, pos;
+	sf::Vector2f accel = { 2, 0 };
 	sf::Texture kunPic;
 	sf::Sprite kun;
 };

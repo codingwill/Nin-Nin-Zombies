@@ -13,7 +13,7 @@ public:
 	Character::Character(const Vector2f& posi, float scale_x, float scale_y);
 	~Character();
 	void draw(RenderTarget& rt) const;
-	void update(Vector2f& posi);
+	void update(Vector2f& posi, float a);
 	const Vector2f& getPosisi();
 	void setPosisi(float x, float y);
 	void animasi();
@@ -22,10 +22,10 @@ public:
 
 
 private:
-	static constexpr float accel = 10.0f;
+	float accel = 2.0f;
 	float currentTime = 0, idleTime = 1.5, runTime = 0.6;
 	float frame = 10, scale_x, scale_y;
-	static constexpr float dt = 0.01;
+	float dt = 0.00000000000001f;
 
 	Vector2f pos, vy = { 0, 6 }, initialPos, gravity = { 0, -2 };
 	Vector2f vel;

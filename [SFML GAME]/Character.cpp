@@ -58,26 +58,24 @@ void Character::draw(RenderTarget& rt) const
 	rt.draw(sprite);
 }
 
-void Character::update(Vector2f& posi)
+void Character::update(Vector2f& velo, float a)
 {
-	if (posi.x < ORIGINSPRITE_X * scale_x)
+	pos = sprite.getPosition();
+	pos += velo;
+	if (pos.x < ORIGINSPRITE_X * scale_x)
 	{
-		posi.x = ORIGINSPRITE_X * scale_x;
+		pos.x = ORIGINSPRITE_X * scale_x;
 	}
-	else if (posi.y < ORIGINSPRITE_Y * scale_y)
+	else if (pos.y < ORIGINSPRITE_Y * scale_y)
 	{
-		posi.y = ORIGINSPRITE_Y * scale_y;
+		pos.y = ORIGINSPRITE_Y * scale_y;
 	}
-	else if (posi.x > 1280-(ORIGINSPRITE_X * scale_x))
-		posi.x = 1280-(ORIGINSPRITE_X * scale_x);
-	else if (posi.y > 720-(ORIGINSPRITE_Y * scale_y))
-		posi.y = 720-(ORIGINSPRITE_Y * scale_y);
-	else
-	{
-		posi += vel;
-		sprite.setPosition(posi);
-		initialPos = posi;
-	}
+	else if (pos.x > 1280-(ORIGINSPRITE_X * scale_x))
+		pos.x = 1280-(ORIGINSPRITE_X * scale_x);
+	else if (pos.y > 720-(ORIGINSPRITE_Y * scale_y))
+		pos.y = 720-(ORIGINSPRITE_Y * scale_y);
+	
+		sprite.setPosition(pos);
 }
 const Vector2f& Character::getPosisi()
 {
