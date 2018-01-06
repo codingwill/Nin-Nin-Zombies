@@ -2,12 +2,15 @@
 
 
 
-Kunai::Kunai(const sf::Vector2f& playerPos)
+Kunai::Kunai(const sf::Vector2f& playerPos, float x, float y)
 {
+	scale_x = x;
+	scale_y = y;
 	kunPic.loadFromFile("images/ninja/png/Kunai.png");
 	kun.setTexture(kunPic);
-	kun.setScale(0.5, 0.5);
+	kun.setScale(scale_x, scale_y);
 	kun.setRotation(90);
+	kun.setOrigin(16, 80);
 	kun.setPosition(playerPos);
 }
 
@@ -22,13 +25,48 @@ void Kunai::draw(sf::RenderTarget& rt) const
 }
 
 
-void Kunai::animasi(sf::Vector2f& posi)
+float Kunai::animasi(sf::Vector2f& posi, bool isFacingRight, bool isFacingLeft)
 {
 	posi = kun.getPosition();
-	if (posi.x < 1350)
+	if (isFacingRight)
 	{
-		vel.x += accel.x * dt;
-		posi.x += vel.x;
-		kun.setPosition(posi);
+		kun.setScale(scale_x, scale_y);
+		if (posi.x < 1200)
+		{
+			vel.x += accel.x * dt;
+			posi.x += vel.x;
+			kun.setPosition(posi);
+		}
+		else
+			return posi.x;
 	}
+	else
+	{
+		kun.setScale(scale_x, -scale_y);
+
+		if (posi.x > 0.0f)
+		{
+			vel.x += -accel.x * dt;
+			posi.x += vel.x;
+			kun.setPosition(posi);
+		}
+		else
+			return posi.x;
+	}
+
+
+}
+
+void Kunai::setVelocity(bool isFacingRight, float x, float y)
+{
+	if (isFacingRight)
+		vel.x = x;
+	else
+		vel.x = -x;
+	vel.y = y;
+}
+
+void Kunai::setPosisi(float x, float y)
+{
+	kun.setPosition(x, y);
 }

@@ -30,16 +30,16 @@ Character::Character(const Vector2f& posi, float scale_x, float scale_y)
 	run9.loadFromFile("images/ninja/png/Run__008.png");
 	run10.loadFromFile("images/ninja/png/Run__009.png");
 
-	run1b.loadFromFile("images/ninja/png/Run__000b.png");
-	run2b.loadFromFile("images/ninja/png/Run__001b.png");
-	run3b.loadFromFile("images/ninja/png/Run__002b.png");
-	run4b.loadFromFile("images/ninja/png/Run__003b.png");
-	run5b.loadFromFile("images/ninja/png/Run__004b.png");
-	run6b.loadFromFile("images/ninja/png/Run__005b.png");
-	run7b.loadFromFile("images/ninja/png/Run__006b.png");
-	run8b.loadFromFile("images/ninja/png/Run__007b.png");
-	run9b.loadFromFile("images/ninja/png/Run__008b.png");
-	run10b.loadFromFile("images/ninja/png/Run__009b.png");
+	throw1.loadFromFile("images/ninja/png/Throw__000.png");
+	throw2.loadFromFile("images/ninja/png/Throw__001.png");
+	throw3.loadFromFile("images/ninja/png/Throw__002.png");
+	throw4.loadFromFile("images/ninja/png/Throw__003.png");
+	throw5.loadFromFile("images/ninja/png/Throw__004.png");
+	throw6.loadFromFile("images/ninja/png/Throw__005.png");
+	throw7.loadFromFile("images/ninja/png/Throw__006.png");
+	throw8.loadFromFile("images/ninja/png/Throw__007.png");
+	throw9.loadFromFile("images/ninja/png/Throw__008.png");
+	throw10.loadFromFile("images/ninja/png/Throw__009.png");
 
 	sprite.setOrigin(116, 219.5);
 	sprite.setScale(scale_x, scale_y);
@@ -85,7 +85,7 @@ void Character::setPosisi(float x, float y)
 {
 	sprite.setPosition(x, y);
 }
-void Character::animasi()
+void Character::animasi(bool& isMoving, bool isFacingRight, bool isFacingLeft, bool& isThrowing)
 {
 		time = clock.getElapsedTime();
 		currentTime = time.asSeconds();
@@ -95,9 +95,11 @@ void Character::animasi()
 		}
 		else
 		{
-			if (Keyboard::isKeyPressed(Keyboard::D) && Keyboard::isKeyPressed(Keyboard::A) == false)
+			if (isFacingRight && sf::Keyboard::isKeyPressed(sf::Keyboard::D) && isMoving)
 			{
+				sprite.setOrigin(181.5, 229);
 				sprite.setTexture(run1, true);
+				sprite.setScale(scale_x, scale_y);
 				if (currentTime >= 10 * runTime / frame)
 					clock.restart();
 				else if (currentTime >= 9 * runTime / frame)
@@ -121,35 +123,134 @@ void Character::animasi()
 				else if (currentTime >= (0 * runTime / frame))
 					sprite.setTexture(run1);
 			}
-			else if (Keyboard::isKeyPressed(Keyboard::A) && Keyboard::isKeyPressed(Keyboard::D) == false)
+			else if (isFacingLeft && sf::Keyboard::isKeyPressed(sf::Keyboard::A) && isMoving)
 			{
-				sprite.setTexture(run1b, true);
+				sprite.setOrigin(181.5, 229);
+				sprite.setTexture(run1, true);
+				sprite.setScale(-scale_x, scale_y);
 				if (currentTime >= 10 * runTime / frame)
 					clock.restart();
 				else if (currentTime >= 9 * runTime / frame)
-					sprite.setTexture(run10b);
+					sprite.setTexture(run10);
 				else if (currentTime >= (8 * runTime / frame))
-					sprite.setTexture(run9b);
+					sprite.setTexture(run9);
 				else if (currentTime >= (7 * runTime / frame))
-					sprite.setTexture(run8b);
+					sprite.setTexture(run8);
 				else if (currentTime >= (6 * runTime / frame))
-					sprite.setTexture(run7b);
+					sprite.setTexture(run7);
 				else if (currentTime >= (5 * runTime / frame))
-					sprite.setTexture(run6b);
+					sprite.setTexture(run6);
 				else if (currentTime >= (4 * runTime / frame))
-					sprite.setTexture(run5b);
+					sprite.setTexture(run5);
 				else if (currentTime >= (3 * runTime / frame))
-					sprite.setTexture(run4b);
+					sprite.setTexture(run4);
 				else if (currentTime >= (2 * runTime / frame))
-					sprite.setTexture(run3b);
+					sprite.setTexture(run3);
 				else if (currentTime >= (1 * runTime / frame))
-					sprite.setTexture(run2b);
+					sprite.setTexture(run2);
 				else if (currentTime >= (0 * runTime / frame))
-					sprite.setTexture(run1b);
+					sprite.setTexture(run1);
 			}
-			else
+			else if (isFacingLeft && isThrowing)
 			{
+				isMoving = false;
+				sprite.setOrigin(188.5, 225.5);
+				sprite.setTexture(throw1, true);
+				sprite.setScale(-scale_x, scale_y);
+				if (currentTime >= 10 * throwTime / frame)
+				{
+					isThrowing = false;
+					clock.restart();
+				}
+				else if (currentTime >= 9 * throwTime / frame)
+					sprite.setTexture(throw10);
+				else if (currentTime >= (8 * throwTime / frame))
+					sprite.setTexture(throw9);
+				else if (currentTime >= (7 * throwTime / frame))
+					sprite.setTexture(throw8);
+				else if (currentTime >= (6 * throwTime / frame))
+					sprite.setTexture(throw7);
+				else if (currentTime >= (5 * throwTime / frame))
+					sprite.setTexture(throw6);
+				else if (currentTime >= (4 * throwTime / frame))
+					sprite.setTexture(throw5);
+				else if (currentTime >= (3 * throwTime / frame))
+					sprite.setTexture(throw4);
+				else if (currentTime >= (2 * throwTime / frame))
+					sprite.setTexture(throw3);
+				else if (currentTime >= (1 * throwTime / frame))
+					sprite.setTexture(throw2);
+				else if (currentTime >= (0 * throwTime / frame))
+					sprite.setTexture(throw1);
+			}
+			else if (isFacingRight && isThrowing)
+			{
+
+				sprite.setOrigin(188.5, 225.5);
+				isMoving = false;
+				sprite.setTexture(throw1, true);
+				sprite.setScale(scale_x, scale_y);
+				if (currentTime >= 10 * throwTime / frame)
+				{
+					isThrowing = false;
+					clock.restart();
+				}
+				else if (currentTime >= 9 * throwTime / frame)
+					sprite.setTexture(throw10);
+				else if (currentTime >= (8 * throwTime / frame))
+					sprite.setTexture(throw9);
+				else if (currentTime >= (7 * throwTime / frame))
+					sprite.setTexture(throw8);
+				else if (currentTime >= (6 * throwTime / frame))
+					sprite.setTexture(throw7);
+				else if (currentTime >= (5 * throwTime / frame))
+					sprite.setTexture(throw6);
+				else if (currentTime >= (4 * throwTime / frame))
+					sprite.setTexture(throw5);
+				else if (currentTime >= (3 * throwTime / frame))
+					sprite.setTexture(throw4);
+				else if (currentTime >= (2 * throwTime / frame))
+					sprite.setTexture(throw3);
+				else if (currentTime >= (1 * throwTime / frame))
+					sprite.setTexture(throw2);
+				else if (currentTime >= (0 * throwTime / frame))
+					sprite.setTexture(throw1);
+			}
+			else if (isFacingRight)
+			{
+				isMoving = false;
+				sprite.setOrigin(116, 219.5);
 				sprite.setTexture(pic1, true);
+				sprite.setScale(scale_x, scale_y);
+				if (currentTime >= 10 * idleTime / frame)
+					clock.restart();
+				else if (currentTime >= 9 * idleTime / frame)
+					sprite.setTexture(pic10);
+				else if (currentTime >= (8 * idleTime / frame))
+					sprite.setTexture(pic9);
+				else if (currentTime >= (7 * idleTime / frame))
+					sprite.setTexture(pic8);
+				else if (currentTime >= (6 * idleTime / frame))
+					sprite.setTexture(pic7);
+				else if (currentTime >= (5 * idleTime / frame))
+					sprite.setTexture(pic6);
+				else if (currentTime >= (4 * idleTime / frame))
+					sprite.setTexture(pic5);
+				else if (currentTime >= (3 * idleTime / frame))
+					sprite.setTexture(pic4);
+				else if (currentTime >= (2 * idleTime / frame))
+					sprite.setTexture(pic3);
+				else if (currentTime >= (1 * idleTime / frame))
+					sprite.setTexture(pic2);
+				else if (currentTime >= (0 * idleTime / frame))
+					sprite.setTexture(pic1);
+			}
+			else if (isFacingLeft)
+			{
+				isMoving = false;
+				sprite.setOrigin(116, 219.5);
+				sprite.setTexture(pic1, true);
+				sprite.setScale(-scale_x, scale_y);
 				if (currentTime >= 10 * idleTime / frame)
 					clock.restart();
 				else if (currentTime >= 9 * idleTime / frame)
@@ -187,5 +288,10 @@ void Character::jump(Vector2f& v, Vector2f& posi)
 	vel = v - gravity * dt;
 	pos += posi + vel * dt;
 	sprite.setPosition(pos);
+}
+
+void Character::clockRestart()
+{
+	clock.restart();
 }
 

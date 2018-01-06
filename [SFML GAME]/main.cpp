@@ -12,7 +12,7 @@
 #define PANJANGWINDOW 1280
 #define LEBARWINDOW 720
 #define POSAWAL_X 1280/2
-#define POSAWAL_Y  720-127
+#define POSAWAL_Y  720-125
 
 using namespace sf;
 using namespace std;
@@ -21,7 +21,7 @@ int main()
 {
 	cout << "ASISTEN\n=================================" << endl;
 
-	RenderWindow window(VideoMode(PANJANGWINDOW, LEBARWINDOW), "MOVING SPRITE TEST");
+	RenderWindow window(VideoMode(PANJANGWINDOW, LEBARWINDOW), "Nin Nin Zombies");
 	window.setVerticalSyncEnabled(true);
 	Texture pic_BG;
 	pic_BG.loadFromFile("images/graveyard/png/BG.png");
@@ -35,12 +35,21 @@ int main()
 
 	Character player({ POSAWAL_X, POSAWAL_Y - 0.3f * 219.5f }, 0.3, 0.3);
 	Vector2f move, pos = { POSAWAL_X, POSAWAL_Y - 0.3f * 219.5f }, playerPos;
-	float speed = 2, a = 2;
+	float speed = 4, a = 2;
 	Vector2f vel(0, 10);
 	Vector2f vect;
 	bool kunaiState = false;
+	float posKunai;
 
-	Kunai kunai(pos);
+	bool isFacingRight = true;
+	bool isFacingLeft = false;
+	bool isMoving = false;
+	bool isThrowing = false;
+
+	bool kunaiFacingLeft = false;
+	bool kunaiFacingRight = false;
+
+	Kunai kunai(pos, 0.4, 0.4);
 
 	//Loop window
 	while (window.isOpen())
@@ -48,13 +57,29 @@ int main()
 		pos = player.getPosisi();
 		if (Keyboard::isKeyPressed(Keyboard::D))
 		{
-			move.x = speed;
-			player.update(move, a);
+			if (isThrowing == false)
+			{
+				isFacingRight = true;
+				isFacingLeft = false;
+				if (isMoving = false)
+					player.clockRestart();
+				isMoving = true;
+				move.x = speed;
+				player.update(move, a);
+			}
 		}
 		if (Keyboard::isKeyPressed(Keyboard::A))
 		{
-			move.x = - speed;
-			player.update(move, -a);
+			if (isThrowing == false)
+			{
+				isFacingRight = false;
+				isFacingLeft = true;
+				if (isMoving = false)
+					player.clockRestart();
+				isMoving = true;
+				move.x = -speed;
+				player.update(move, -a);
+			}
 		}
 		if (Keyboard::isKeyPressed(Keyboard::W))
 		{
@@ -71,13 +96,7 @@ int main()
 		}
 		if (Keyboard::isKeyPressed(Keyboard::Space))
 		{
-			player.jumpState = true;
-			player.jump(vel, move);
-		}
 
-		if (Keyboard::isKeyPressed(Keyboard::F))
-		{
-			kunaiState = true;
 		}
 
 		Event event;
@@ -87,10 +106,31 @@ int main()
 			if (event.type == Event::Closed)
 				window.close();
 
+			if (Keyboard::isKeyPressed(Keyboard::F))
+			{
+				isMoving = false;
+				player.clockRestart();
+				isThrowing = true;
+				if (isFacingLeft)
+				{
+					kunaiFacingLeft = true;
+					kunaiFacingRight = false;
+				}
+				else if (isFacingRight)
+				{
+					kunaiFacingLeft = false;
+					kunaiFacingRight = true;
+				}
+				kunai.setPosisi(pos.x, pos.y);
+				kunai.setVelocity(isFacingRight, 8, 0);
+				kunaiState = true;
+			}
+
+
 		}
 		pos = player.getPosisi();
 
-		player.animasi();
+		player.animasi(isMoving, isFacingRight, isFacingLeft, isThrowing);
 
 		// ngeload background //
 		window.clear();
@@ -99,8 +139,29 @@ int main()
 		player.draw(window);
 		if (kunaiState == true)
 		{
-			kunai.draw(window);
-			kunai.animasi(pos);
+			if (kunaiFacingLeft)
+			{
+				posKunai = kunai.animasi(pos, kunaiFacingRight, kunaiFacingLeft);
+				kunai.draw(window);
+				if (posKunai < 0)
+				{
+					posKunai = pos.x;
+					kunai.setPosisi(pos.x, pos.y);
+					kunaiState = false;
+				}
+			}
+			else if (kunaiFacingRight)
+			{
+				posKunai = kunai.animasi(pos, kunaiFacingRight, kunaiFacingLeft);
+				kunai.draw(window);
+				if (posKunai > 1000)
+				{
+					posKunai = pos.x;
+					kunai.setPosisi(pos.x, pos.y);
+					kunaiState = false;
+				}
+			}
+
 		}
 		window.display();
 	}
