@@ -45,6 +45,7 @@ int main()
 	bool isFacingLeft = false;
 	bool isMoving = false;
 	bool isThrowing = false;
+	bool isJumping = false;
 
 	bool kunaiFacingLeft = false;
 	bool kunaiFacingRight = false;
@@ -88,16 +89,6 @@ int main()
 		{
 
 		}
-		if (Keyboard::isKeyPressed(Keyboard::Delete))
-		{
-			player.cekWaktu();
-			vect = player.getPosisi();
-			cout << "Posisi player ada di: [" << vect.x << ", " << vect.y << "]" << endl;
-		}
-		if (Keyboard::isKeyPressed(Keyboard::Space))
-		{
-
-		}
 
 		Event event;
 		while (window.pollEvent(event))
@@ -105,6 +96,13 @@ int main()
 			// closing window if close event triggered
 			if (event.type == Event::Closed)
 				window.close();
+
+			if (Keyboard::isKeyPressed(Keyboard::Delete))
+			{
+				player.cekWaktu();
+				pos = player.getPosisi();
+				cout << "Posisi player ada di: [" << pos.x << ", " << pos.y << "]" << endl;
+			}
 
 			if (Keyboard::isKeyPressed(Keyboard::F))
 			{
@@ -126,11 +124,19 @@ int main()
 				kunaiState = true;
 			}
 
+			if (Keyboard::isKeyPressed(Keyboard::W))
+			{
+				player.clockRestart();
+				isJumping = true;
+
+			}
+
 
 		}
 		pos = player.getPosisi();
-
-		player.animasi(isMoving, isFacingRight, isFacingLeft, isThrowing);
+		if (isJumping)
+			player.jumping(pos, isJumping);
+		player.animasi(isMoving, isFacingRight, isFacingLeft, isThrowing, isJumping);
 
 		// ngeload background //
 		window.clear();

@@ -41,6 +41,18 @@ Character::Character(const Vector2f& posi, float scale_x, float scale_y)
 	throw9.loadFromFile("images/ninja/png/Throw__008.png");
 	throw10.loadFromFile("images/ninja/png/Throw__009.png");
 
+	//362x483
+	jump1.loadFromFile("images/ninja/png/Jump__000.png");
+	jump2.loadFromFile("images/ninja/png/Jump__001.png");
+	jump3.loadFromFile("images/ninja/png/Jump__002.png");
+	jump4.loadFromFile("images/ninja/png/Jump__003.png");
+	jump5.loadFromFile("images/ninja/png/Jump__004.png");
+	jump6.loadFromFile("images/ninja/png/Jump__005.png");
+	jump7.loadFromFile("images/ninja/png/Jump__006.png");
+	jump8.loadFromFile("images/ninja/png/Jump__007.png");
+	jump9.loadFromFile("images/ninja/png/Jump__008.png");
+	jump10.loadFromFile("images/ninja/png/Jump__009.png");
+
 	sprite.setOrigin(116, 219.5);
 	sprite.setScale(scale_x, scale_y);
 	sprite.setTexture(pic1);
@@ -85,7 +97,7 @@ void Character::setPosisi(float x, float y)
 {
 	sprite.setPosition(x, y);
 }
-void Character::animasi(bool& isMoving, bool isFacingRight, bool isFacingLeft, bool& isThrowing)
+void Character::animasi(bool& isMoving, bool isFacingRight, bool isFacingLeft, bool& isThrowing, bool& isJumping)
 {
 		time = clock.getElapsedTime();
 		currentTime = time.asSeconds();
@@ -95,7 +107,7 @@ void Character::animasi(bool& isMoving, bool isFacingRight, bool isFacingLeft, b
 		}
 		else
 		{
-			if (isFacingRight && sf::Keyboard::isKeyPressed(sf::Keyboard::D) && isMoving)
+			if (isFacingRight && sf::Keyboard::isKeyPressed(sf::Keyboard::D) && isMoving && isJumping == false)
 			{
 				sprite.setOrigin(181.5, 229);
 				sprite.setTexture(run1, true);
@@ -123,7 +135,7 @@ void Character::animasi(bool& isMoving, bool isFacingRight, bool isFacingLeft, b
 				else if (currentTime >= (0 * runTime / frame))
 					sprite.setTexture(run1);
 			}
-			else if (isFacingLeft && sf::Keyboard::isKeyPressed(sf::Keyboard::A) && isMoving)
+			else if (isFacingLeft && sf::Keyboard::isKeyPressed(sf::Keyboard::A) && isMoving && isJumping == false)
 			{
 				sprite.setOrigin(181.5, 229);
 				sprite.setTexture(run1, true);
@@ -216,7 +228,7 @@ void Character::animasi(bool& isMoving, bool isFacingRight, bool isFacingLeft, b
 				else if (currentTime >= (0 * throwTime / frame))
 					sprite.setTexture(throw1);
 			}
-			else if (isFacingRight)
+			else if (isFacingRight && isJumping == false)
 			{
 				isMoving = false;
 				sprite.setOrigin(116, 219.5);
@@ -245,7 +257,7 @@ void Character::animasi(bool& isMoving, bool isFacingRight, bool isFacingLeft, b
 				else if (currentTime >= (0 * idleTime / frame))
 					sprite.setTexture(pic1);
 			}
-			else if (isFacingLeft)
+			else if (isFacingLeft && isJumping == false)
 			{
 				isMoving = false;
 				sprite.setOrigin(116, 219.5);
@@ -274,6 +286,64 @@ void Character::animasi(bool& isMoving, bool isFacingRight, bool isFacingLeft, b
 				else if (currentTime >= (0 * idleTime / frame))
 					sprite.setTexture(pic1);
 			}
+			else if (isFacingRight && isJumping)
+			{
+				isMoving = false; 
+				sprite.setOrigin(181, 241.5);
+				sprite.setTexture(jump1, true);
+				sprite.setScale(scale_x, scale_y);
+				if (currentTime >= 10 * idleTime / frame)
+					clock.restart();
+				else if (currentTime >= 9 * idleTime / frame)
+					sprite.setTexture(jump10);
+				else if (currentTime >= (8 * idleTime / frame))
+					sprite.setTexture(jump9);
+				else if (currentTime >= (7 * idleTime / frame))
+					sprite.setTexture(jump8);
+				else if (currentTime >= (6 * idleTime / frame))
+					sprite.setTexture(jump7);
+				else if (currentTime >= (5 * idleTime / frame))
+					sprite.setTexture(jump6);
+				else if (currentTime >= (4 * idleTime / frame))
+					sprite.setTexture(jump5);
+				else if (currentTime >= (3 * idleTime / frame))
+					sprite.setTexture(jump4);
+				else if (currentTime >= (2 * idleTime / frame))
+					sprite.setTexture(jump3);
+				else if (currentTime >= (1 * idleTime / frame))
+					sprite.setTexture(jump2);
+				else if (currentTime >= (0 * idleTime / frame))
+					sprite.setTexture(jump1);
+			}
+			else if (isFacingLeft && isJumping)
+			{
+				isMoving = false;
+				sprite.setOrigin(181, 241.5);
+				sprite.setTexture(jump1, true);
+				sprite.setScale(-scale_x, scale_y);
+				if (currentTime >= 10 * idleTime / frame)
+					clock.restart();
+				else if (currentTime >= 9 * idleTime / frame)
+					sprite.setTexture(jump10);
+				else if (currentTime >= (8 * idleTime / frame))
+					sprite.setTexture(jump9);
+				else if (currentTime >= (7 * idleTime / frame))
+					sprite.setTexture(jump8);
+				else if (currentTime >= (6 * idleTime / frame))
+					sprite.setTexture(jump7);
+				else if (currentTime >= (5 * idleTime / frame))
+					sprite.setTexture(jump6);
+				else if (currentTime >= (4 * idleTime / frame))
+					sprite.setTexture(jump5);
+				else if (currentTime >= (3 * idleTime / frame))
+					sprite.setTexture(jump4);
+				else if (currentTime >= (2 * idleTime / frame))
+					sprite.setTexture(jump3);
+				else if (currentTime >= (1 * idleTime / frame))
+					sprite.setTexture(jump2);
+				else if (currentTime >= (0 * idleTime / frame))
+					sprite.setTexture(jump1);
+			}
 		}
 		
 }
@@ -295,3 +365,16 @@ void Character::clockRestart()
 	clock.restart();
 }
 
+void Character::jumping(sf::Vector2f& posJump, bool& isJumping)
+{
+	vel.y += gravity.y * dt;
+	posJump.y += vel.y;
+	sprite.setPosition(posJump);
+	posJump = sprite.getPosition();
+	if (posJump.y > 529.15)
+	{
+		isJumping = false;
+		sprite.setPosition(posJump.x, posJump.y);
+		vel.y = velInit.y;//YASSSSSS AKHIRNYA!!!
+	}
+}
