@@ -2,16 +2,15 @@
 
 
 
-Kunai::Kunai(const sf::Vector2f& playerPos, float x, float y)
+Kunai::Kunai()
 {
-	scale_x = x;
-	scale_y = y;
+	scale_x = 0.4;
+	scale_y = 0.4;
 	kunPic.loadFromFile("images/ninja/png/Kunai.png");
 	kun.setTexture(kunPic);
 	kun.setScale(scale_x, scale_y);
 	kun.setRotation(90);
 	kun.setOrigin(16, 80);
-	kun.setPosition(playerPos);
 }
 
 

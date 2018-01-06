@@ -25,7 +25,7 @@ public:
 
 private:
 	float accel = 2.0f;
-	float currentTime = 0, idleTime = 1.5, runTime = 0.6, throwTime = 0.3, jumpTime = 1;
+	float currentTime = 0, idleTime = 1.5, runTime = 0.6, throwTime = 0.25, jumpTime = 1;
 	float frame = 10, scale_x, scale_y;
 	float dt = 0.1f;//THIS IS THE FUCKING CULPRIT! XD
 

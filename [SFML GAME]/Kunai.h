@@ -4,7 +4,7 @@
 class Kunai
 {
 public:
-	Kunai(const sf::Vector2f& playerPos, float scale_x, float scale_y);
+	Kunai();
 	~Kunai();
 	void draw(sf::RenderTarget& rt) const;
 	float animasi(sf::Vector2f& posi, bool isFacingRight, bool isFacingLeft);
